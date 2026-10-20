@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#c59b27">
+  <meta name="description" content="تطبيق الوصول السريع إلى نظام إدارة الحرمين للمقاولات">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <title>إدارة الحرمين</title>
+  <style>
+    :root{color-scheme:light;--gold:#c59b27;--ink:#262626;--muted:#686868}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(150deg,#fffdf7,#f3f4f6);font-family:Tahoma,Arial,sans-serif;color:var(--ink);display:grid;place-items:center;padding:22px}
+    main{width:min(100%,520px);background:#fff;border:1px solid #ead9a0;border-radius:24px;padding:28px;box-shadow:0 18px 55px #00000012;text-align:center}
+    .logo{width:92px;height:92px;object-fit:contain;margin:0 auto 12px}h1{font-size:27px;color:#9b7419;margin:8px 0}p{line-height:1.9;color:var(--muted);margin:10px 0 20px}
+    .btn{display:block;width:100%;border:0;border-radius:13px;background:var(--gold);color:#211a09;text-decoration:none;font-weight:700;font-size:17px;padding:15px;margin-top:10px;cursor:pointer}
+    .secondary{background:#fffaf0;border:1px solid #e5d39a;color:#775b12;font-size:15px}.note{font-size:12px;margin-top:20px}
+    #installBtn{display:none}
+  </style>
+</head>
+<body>
+  <main>
+    <img class="logo" src="icons/icon-192.png" alt="شعار إدارة الحرمين">
+    <h1>إدارة الحرمين</h1>
+    <p>الحرمين للمقاولات العامة والتشطيبات والتطوير العقاري</p>
+    <a class="btn" href="https://script.google.com/macros/s/AKfycbzJ2fKa___gvteoLkp-OAFDz8Q_2EK4cTBAOyyeIcp_2yfxZPuBVkYdNuGoHK_qzBtthA/exec" target="_blank" rel="noopener">فتح نظام الإدارة</a>
+    <button class="btn secondary" id="installBtn" type="button">تثبيت التطبيق على الجهاز</button>
+    <p class="note">يلزم الاتصال بالإنترنت لاستخدام النظام وحفظ البيانات. هذه الواجهة اختصار قابل للتثبيت للرابط الحالي، وليست نسخة تعمل دون إنترنت.</p>
+  </main>
+  <script>
+    if ('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+    let installPrompt=null; const installBtn=document.getElementById('installBtn');
+    window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;installBtn.style.display='block';});
+    installBtn.addEventListener('click',async()=>{if(!installPrompt){alert('من قائمة المتصفح اختر تثبيت التطبيق أو إضافة إلى الشاشة الرئيسية.');return;}installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;installBtn.style.display='none';});
+    window.addEventListener('appinstalled',()=>{installBtn.style.display='none';});
+  </script>
+</body>
+</html>
